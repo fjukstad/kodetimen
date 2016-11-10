@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"text/template"
 
 	"github.com/gorilla/mux"
@@ -15,8 +16,14 @@ func main() {
 	r.HandleFunc("/", IndexHandler)
 	r.HandleFunc("/schools", SchoolsHandler)
 
-	fmt.Println("Server started on localhost:80")
-	err := http.ListenAndServe(":80", r)
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		fmt.Println("$PORT must be set")
+	}
+
+	fmt.Println("Server started on", port)
+	err := http.ListenAndServe(":"+port, r)
 
 	if err != nil {
 		fmt.Println(err)
