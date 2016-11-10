@@ -78,7 +78,6 @@ func formatPositions(schools []School) ([]School, error) {
 
 		pos := school.Point.Pos
 		position := strings.Split(pos, " ")
-		fmt.Println(school, pos)
 		if len(pos) < 2 {
 			return []School{}, errors.New("Error: Could not parse position:" + pos)
 		}

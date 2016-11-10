@@ -8,17 +8,28 @@ import (
 )
 
 func main() {
-	//_, err := getSchools()
-	//if err != nil {
-	//	fmt.Println(err)
-	//	return
-	//}
-
-	schools, err := parseSchoolLocations()
-	for _, school := range schools {
-		school.Print()
+	registeredSchools, err := getSchools()
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
-	fmt.Println(err)
+
+	allNorwegianSchools, err := parseSchoolLocations()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	schools := []School{}
+
+	for _, registered := range registeredSchools {
+		for _, school := range allNorwegianSchools {
+			if registered == school.Name {
+				schools = append(schools, school)
+				break
+			}
+		}
+	}
 }
 
 func getSchools() ([]string, error) {
@@ -37,8 +48,6 @@ func getSchools() ([]string, error) {
 		school = strings.TrimSpace(school)
 		school = strings.Split(school, ",")[0]
 		if !inSlice(school, schools) {
-			fmt.Println(school)
-
 			schools = append(schools, school)
 		}
 	})
