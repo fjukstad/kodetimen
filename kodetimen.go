@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -12,17 +11,15 @@ type RegisteredSchool struct {
 	Registered bool
 }
 
-func main() {
+func getRegisteredSchools() ([]RegisteredSchool, error) {
 	registeredSchools, err := getSchools()
 	if err != nil {
-		fmt.Println(err)
-		return
+		return []RegisteredSchool{}, err
 	}
 
 	allNorwegianSchools, err := parseSchoolLocations()
 	if err != nil {
-		fmt.Println(err)
-		return
+		return []RegisteredSchool{}, err
 	}
 
 	schools := []RegisteredSchool{}
@@ -37,7 +34,7 @@ func main() {
 		}
 		schools = append(schools, RegisteredSchool{school, reg})
 	}
-
+	return schools, nil
 }
 
 func getSchools() ([]string, error) {
@@ -69,4 +66,5 @@ func inSlice(str string, slice []string) bool {
 		}
 	}
 	return false
+
 }

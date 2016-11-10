@@ -31,11 +31,11 @@ type School struct {
 	BuildingType       string  `xml:"bygningstype"`
 	Address            Address `xml:"postadresse > PostnummerområdeId"`
 	Name               string  `xml:"skolenavn"`
-	Owner              Owner   `xml:"eier"`
+	Owner              Owner   `xml:"eier>Institusjonseier"`
 }
 
 type Owner struct {
-	EMail       string `xml:"epostadresse"`
+	Email       string `xml:"epostadresse"`
 	PhoneNumber string `xml:"telefonnummer"`
 }
 
