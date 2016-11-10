@@ -8,13 +8,17 @@ import (
 )
 
 func main() {
-	schools, err := getSchools()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	//_, err := getSchools()
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
 
-	fmt.Println(schools)
+	schools, err := parseSchoolLocations()
+	for _, school := range schools {
+		school.Print()
+	}
+	fmt.Println(err)
 }
 
 func getSchools() ([]string, error) {
