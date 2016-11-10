@@ -9,20 +9,25 @@
               crossorigin="anonymous"></script>
 
         <style>
-            #mapid { 
-                height: 800px;
+          body {
+                padding: 0;
+                margin: 0;
+            }
+            html, body, #map {
+                height: 100%;
+                width: 100%;
             }
         </style>
     </head>
     <body>
-         <div id="mapid"></div>
+         <div id="map"></div>
     </body>
 
     <script> 
         var id = "d6b8f721-ddff-4a13-a016-3eef94a9b247"
 
 
-        var map = L.map('mapid').setView([65.6, 12.9], 5);
+        var map = L.map('map').setView([65.6, 12.9], 5);
         var accessToken = 'pk.eyJ1IjoiZmp1a3N0YWQiLCJhIjoiY2l2Mnh3azRvMDBrYTJ5bnYxcDAzZ3Z0biJ9.RHb5ENfbmzN65gjiB-L_wg';
 
     L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZmp1a3N0YWQiLCJhIjoiY2l2Mnh3azRvMDBrYTJ5bnYxcDAzZ3Z0biJ9.RHb5ENfbmzN65gjiB-L_wg', {
