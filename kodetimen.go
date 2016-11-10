@@ -7,6 +7,11 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+type RegisteredSchool struct {
+	School
+	Registered bool
+}
+
 func main() {
 	registeredSchools, err := getSchools()
 	if err != nil {
@@ -20,16 +25,19 @@ func main() {
 		return
 	}
 
-	schools := []School{}
+	schools := []RegisteredSchool{}
 
-	for _, registered := range registeredSchools {
-		for _, school := range allNorwegianSchools {
+	for _, school := range allNorwegianSchools {
+		reg := false
+		for _, registered := range registeredSchools {
 			if registered == school.Name {
-				schools = append(schools, school)
+				reg = true
 				break
 			}
 		}
+		schools = append(schools, RegisteredSchool{school, reg})
 	}
+
 }
 
 func getSchools() ([]string, error) {

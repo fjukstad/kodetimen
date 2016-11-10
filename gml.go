@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -22,19 +23,26 @@ type FeatureMember struct {
 }
 
 type School struct {
-	Point        Point   `xml:"posisjon>Point"`
-	Persons      Persons `xml:"antall_personer>AntallPersoner"`
-	CountyName   string  `xml:"kommunenavn"`
-	CountNymber  int     `xml:"kommunenummer"`
-	BuildingType string  `xml:"bygningstype"`
-	Address      Address `xml:"postadresse > PostnummerområdeId"`
-	Name         string  `xml:"skolenavn"`
+	Point              Point   `xml:"posisjon>Point"`
+	Persons            Persons `xml:"antall_personer>AntallPersoner"`
+	MunicipalityName   string  `xml:"kommunenavn"`
+	MunicipalityNymber int     `xml:"kommuneenummer"`
+	CountyNumber       int     `xml:"fylkesnummer"`
+	BuildingType       string  `xml:"bygningstype"`
+	Address            Address `xml:"postadresse > PostnummerområdeId"`
+	Name               string  `xml:"skolenavn"`
+	Owner              Owner   `xml:"eier"`
+}
+
+type Owner struct {
+	EMail       string `xml:"epostadresse"`
+	PhoneNumber string `xml:"telefonnummer"`
 }
 
 type Point struct {
 	Pos  string `xml:"pos"`
-	Lat  string
-	Long string
+	Lat  float64
+	Long float64
 }
 
 type Address struct {
@@ -84,8 +92,20 @@ func formatPositions(schools []School) ([]School, error) {
 
 		long := position[0]
 		lat := position[1]
-		schools[i].Point.Lat = lat
-		schools[i].Point.Long = long
+
+		f, err := strconv.ParseFloat(lat, 64)
+		if err != nil {
+			return []School{}, err
+		}
+
+		schools[i].Point.Lat = f
+
+		f, err = strconv.ParseFloat(long, 64)
+		if err != nil {
+			return []School{}, err
+		}
+
+		schools[i].Point.Long = f
 	}
 	return schools, nil
 }
