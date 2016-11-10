@@ -15,8 +15,8 @@ func main() {
 	r.HandleFunc("/", IndexHandler)
 	r.HandleFunc("/schools", SchoolsHandler)
 
-	fmt.Println("Server started on localhost:8000")
-	err := http.ListenAndServe(":8000", r)
+	fmt.Println("Server started on localhost:80")
+	err := http.ListenAndServe(":80", r)
 
 	if err != nil {
 		fmt.Println(err)
