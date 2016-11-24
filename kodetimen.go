@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -49,13 +50,38 @@ func getRegisteredSchools() ([]RegisteredSchool, error) {
 
 	for _, school := range allNorwegianSchools {
 		reg := false
-		for _, registered := range registeredSchools {
+		for i, registered := range registeredSchools {
 			if strings.Contains(school.Name, registered.School) && registered.Locality == school.MunicipalityName {
 				reg = true
+				// remove from slice so we don't add it later on
+				registeredSchools[i].School = ""
 				break
 			}
 		}
 		schools = append(schools, RegisteredSchool{school, reg})
+	}
+
+	// Add all schools registered for the hour of code but are not in the
+	// dataset from kartvertket.
+	for _, school := range registeredSchools {
+		if school.School != "" {
+			school.PosLat = strings.TrimPrefix(school.PosLat, "~f")
+			school.PosLong = strings.TrimPrefix(school.PosLong, "~f")
+			lat, err := strconv.ParseFloat(school.PosLat, 64)
+
+			if err != nil {
+				continue
+			}
+			long, _ := strconv.ParseFloat(school.PosLong, 64)
+			if err != nil {
+				continue
+			}
+
+			p := Point{"", lat, long}
+			s := School{Point: p, Name: school.School}
+			schools = append(schools, RegisteredSchool{s, true})
+		}
+
 	}
 	return schools, nil
 }
