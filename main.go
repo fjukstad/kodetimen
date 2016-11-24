@@ -4,17 +4,15 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"text/template"
 
-	"github.com/gorilla/mux"
 	"github.com/paulmach/go.geojson"
 )
 
 func main() {
 
-	r := mux.NewRouter()
-	r.HandleFunc("/", IndexHandler)
-	r.HandleFunc("/schools", SchoolsHandler)
+	mux := http.NewServeMux()
+	mux.Handle("/", http.FileServer(http.Dir(".")))
+	mux.HandleFunc("/schools", SchoolsHandler)
 
 	port := os.Getenv("PORT")
 
@@ -23,7 +21,7 @@ func main() {
 	}
 
 	fmt.Println("Server started on", port)
-	err := http.ListenAndServe(":"+port, r)
+	err := http.ListenAndServe(":"+port, mux)
 
 	if err != nil {
 		fmt.Println(err)
@@ -60,10 +58,4 @@ func SchoolsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write(b)
-	return
-}
-
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	indexTemplate := template.Must(template.ParseFiles("index.html"))
-	indexTemplate.Execute(w, nil)
 }
