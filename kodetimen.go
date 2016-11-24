@@ -27,7 +27,7 @@ type LKKSchool struct {
 	Deleted  bool        `json:"_deleted"`
 	Address  string      `json:"address"`
 	PosLat   string      `json:"pos_lat"`
-	Students int         `json:"students"`
+	Students interface{} `json:"students"`
 	School   string      `json:"school"`
 	Year     int         `json:"year"`
 	PosLong  string      `json:"pos_long"`
