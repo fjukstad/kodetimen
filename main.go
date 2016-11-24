@@ -37,6 +37,10 @@ func SchoolsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// sorting schools so that leaflet draws the registered schools on top of
+	// the not registered schools.
+	schools = sortSchools(schools)
+
 	fc := geojson.NewFeatureCollection()
 
 	for _, school := range schools {

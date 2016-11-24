@@ -92,3 +92,15 @@ func inSlice(str string, slice []string) bool {
 	return false
 
 }
+
+func sortSchools(schools []RegisteredSchool) []RegisteredSchool {
+	var registered, notRegistered []RegisteredSchool
+	for _, school := range schools {
+		if school.Registered {
+			registered = append(registered, school)
+		} else {
+			notRegistered = append(notRegistered, school)
+		}
+	}
+	return append(notRegistered, registered...)
+}
