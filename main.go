@@ -17,7 +17,7 @@ func main() {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		fmt.Println("$PORT must be set")
+		port = "8000"
 	}
 
 	fmt.Println("Server started on", port)
