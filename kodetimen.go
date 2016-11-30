@@ -51,7 +51,7 @@ func getRegisteredSchools() ([]RegisteredSchool, error) {
 	for _, school := range allNorwegianSchools {
 		reg := false
 		for i, registered := range registeredSchools {
-			if strings.Contains(school.Name, registered.School) && registered.Locality == school.MunicipalityName {
+			if registered.School != "" && strings.Contains(school.Name, registered.School) && registered.Locality == school.MunicipalityName {
 				reg = true
 				// remove from slice so we don't add it later on
 				registeredSchools[i].School = ""
